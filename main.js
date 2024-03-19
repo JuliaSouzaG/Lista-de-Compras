@@ -9,6 +9,7 @@ form.addEventListener('submit', function (evento) {
     evento.preventDefault()
     salvarItem()
     mostrarItens()
+    itensInput.focus()
 })
 
 function salvarItem () {
@@ -21,20 +22,21 @@ function salvarItem () {
        listaDeItens.push({
         valor: comprasItem,
         checar: false
-        
     })
     }
-   
-    console.log(listaDeItens) 
+
+    itensInput.value = ''
 
 }
 
 function mostrarItens() {
     ulItens.innerHTML = ''
+    ulItensComprados.innerHTML = ''
+    
     listaDeItens.forEach((elemento, index) => {
         if(elemento.checar){
-        ulItensComprados.innerHTML += 
-            `<li class="item-compra is-flex is-justify-content-space-between" data-value="${index}">
+        ulItensComprados.innerHTML += `
+        <li class="item-compra is-flex is-justify-content-space-between" data-value="${index}">
             <div>
                 <input type="checkbox" checked class="is-clickable" />  
                 <span class="itens-comprados is-size-5">${elemento.valor}</span>
@@ -47,15 +49,14 @@ function mostrarItens() {
         } else {
         ulItens.innerHTML += ` 
         <li class="item-compra is-flex is-justify-content-space-between" data-value="${index}">
-        <div>
-            <input type="checkbox" class="is-clickable" />
-            <input type="text" class="is-size-5" value="${elemento.valor}"></input>
-        </div>
-        <div>
-            <i class="fa-solid fa-trash is-clickable deletar"></i>
-        </div>
-    </li>
-        `
+            <div>
+                <input type="checkbox" class="is-clickable" />
+                <input type="text" class="is-size-5" value="${elemento.valor}"></input>
+            </div>
+            <div>
+                <i class="fa-solid fa-trash is-clickable deletar"></i>
+            </div>
+            </li>`
        } 
     })
 
@@ -63,9 +64,9 @@ function mostrarItens() {
 
     inputsCheck.forEach(i => {
         i.addEventListener('click', (evento) => {
-            console.log(evento.target.parentElement.parentElement.getAttribute('data-value'))
+            valordoElemento = evento.target.parentElement.parentElement.getAttribute('data-value')
             listaDeItens[valorDoElemento].checar = evento.target.checked
-            console.log(listaDeItens[valorDoElemento].checar)
+            mostrarItens()
         })
     })
 
